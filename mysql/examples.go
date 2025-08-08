@@ -3,6 +3,7 @@ package mysql
 import (
 	"context"
 	"database/sql"
+	"fmt"
 )
 
 type User struct {
@@ -15,7 +16,11 @@ type User struct {
 func InsertUser(ctx context.Context, db *sql.DB, first, last, email string) (int64, error) {
 	const q = `
 		INSERT INTO users (first_name, last_name, email)
-		VALUES (?, ?, ?);
+		VALUES (?, ?, ?)
+		ON DUPLICATE KEY UPDATE
+		  first_name = VALUES(first_name),
+		  last_name  = VALUES(last_name),
+		  id = LAST_INSERT_ID(id);
 	`
 	res, err := db.ExecContext(ctx, q, first, last, email)
 	if err != nil {
@@ -75,9 +80,11 @@ func TxExample(ctx context.Context, db *sql.DB) error {
 		return err
 	}
 
+	finalEmail := fmt.Sprintf("grace.hopper+%d@example.com", id)
 	if _, err := tx.ExecContext(ctx, `
 		UPDATE users SET email = ? WHERE id = ?`,
-		"grace.hopper@example.com", id); err != nil {
+		finalEmail, id,
+	); err != nil {
 		return err
 	}
 

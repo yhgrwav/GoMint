@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 )
 
 type User struct {
@@ -17,6 +18,9 @@ func InsertUser(ctx context.Context, db *sql.DB, first, last, email string) (int
 	const q = `
 		INSERT INTO users (first_name, last_name, email)
 		VALUES ($1, $2, $3)
+		ON CONFLICT (email) DO UPDATE
+		  SET first_name = EXCLUDED.first_name,
+		      last_name  = EXCLUDED.last_name
 		RETURNING id;
 	`
 	var id int64
@@ -75,9 +79,10 @@ func TxExample(ctx context.Context, db *sql.DB) error {
 		return err
 	}
 
+	finalEmail := fmt.Sprintf("grace.hopper+%d@example.com", newID)
 	if _, err := tx.ExecContext(ctx, `
 		UPDATE users SET email = $1 WHERE id = $2;`,
-		"grace.hopper@example.com", newID,
+		finalEmail, newID,
 	); err != nil {
 		return err
 	}
