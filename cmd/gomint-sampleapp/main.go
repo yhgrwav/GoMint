@@ -1,0 +1,1 @@
+package gomint_sampleapp
