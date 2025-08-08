@@ -1,3 +1,6 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/yhgrwav/GoMint.svg)](https://pkg.go.dev/github.com/yhgrwav/GoMint)
+[![CI](https://github.com/yhgrwav/GoMint/actions/workflows/ci.yml/badge.svg)](https://github.com/yhgrwav/GoMint/actions)
+
 # GoMint
 
 GoMint — a collection of ready-to-use Go code snippets for working with databases and APIs.  
@@ -5,7 +8,7 @@ Focus: PostgreSQL, MySQL, REST client, Docker setups.
 
 ## Modules
 - postgres — connections, queries, transactions (PostgreSQL)
-- mysql — connections, queries, transactions (MySQL)
+- mysql — (planned)
 - rest — JSON client (GET/POST, timeouts, basic retries)
 - docker — compose files for local DBs
 - examples — runnable mini demos
@@ -13,12 +16,12 @@ Focus: PostgreSQL, MySQL, REST client, Docker setups.
 ---
 
 ## Quick start (PostgreSQL)
-1. Start local DB:
-   cd docker
+1. Start local DB:  
+   cd docker  
    docker compose up -d
 
-2. Run example:
-   cd ..
+2. Run example:  
+   cd ..  
    go run ./examples/postgres_ping
 
 ---
@@ -26,10 +29,10 @@ Focus: PostgreSQL, MySQL, REST client, Docker setups.
 ## REST examples
 Simple JSON client with timeouts and basic retries (429/5xx).
 
-GET:
+GET:  
 go run ./examples/rest_get
 
-POST:
+POST:  
 go run ./examples/rest_post
 
 Code lives in:
@@ -47,11 +50,11 @@ It’s safe (no SQL injection via values) and can reuse query plans.
 MIT
 
 ## Install
-go get github.com/yhgrwav/GoMint/postgres
-go get github.com/yhgrwav/GoMint/mysql
+go get github.com/yhgrwav/GoMint/postgres  
+go get github.com/yhgrwav/GoMint/mysql  
 go get github.com/yhgrwav/GoMint/rest
 
 ## Import
-import "github.com/yhgrwav/GoMint/postgres"
-import "github.com/yhgrwav/GoMint/mysql"
+import "github.com/yhgrwav/GoMint/postgres"  
+import "github.com/yhgrwav/GoMint/mysql"  
 import "github.com/yhgrwav/GoMint/rest"
